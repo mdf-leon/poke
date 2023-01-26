@@ -6,6 +6,7 @@ import "./index.css";
 import { RecoilRoot, atom } from "recoil";
 
 import Layout from "./components/Layout";
+import Pokemon from "./pages/Pokemon";
 
 export const crtEffectState = atom({
   key: "crtEffect", // unique ID (with respect to other atoms/selectors)
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <Layout>
           <Routes>
             <Route path="/" element={<App />} />
+            <Route path="/pokemon/:id" element={<Pokemon />} />
           </Routes>
         </Layout>
       </RecoilRoot>

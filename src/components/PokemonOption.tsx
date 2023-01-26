@@ -1,14 +1,14 @@
 import React from "react";
 
-export const drawPokemon = (pkm: any, i: number) => {
+export const drawPokemonOptionList = (pkm: { url: string; name: string }, i: number) => {
   const id = pkm.url
     .replace("https://pokeapi.co/api/v2/pokemon/", "")
     .replace("/", "");
 
-  return <Pokemon key={i} id={id} pkmName={pkm.name} />;
+  return <PokemonOption key={i} id={id} pkmName={pkm.name} />;
 };
 
-const handleClick = (pkm: any) => {
+const handleClick = (pkm: { pkmName: string; id: string }) => {
   const pokemonClicked = new CustomEvent("pokemonClicked", {
     detail: { pkm },
     bubbles: true,
@@ -20,7 +20,7 @@ const handleClick = (pkm: any) => {
   };
 };
 
-function Pokemon(props: any) {
+function PokemonOption(props: { pkmName: string; id: string }) {
   const { id, pkmName } = props;
   return (
     <button
@@ -40,5 +40,3 @@ function Pokemon(props: any) {
     </button>
   );
 }
-
-export default Pokemon;

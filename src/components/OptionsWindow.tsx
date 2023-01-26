@@ -18,7 +18,7 @@ export default function OptionsWindow(props) {
         <span>titlebar</span>
         <span>
           {" "}
-          — ▢ <button onClick={handleClick()}>✕</button>{" "}
+          <button onClick={handleClick()}>#</button> — ▢ <button onClick={handleClick()}>✕</button>{" "}
         </span>
       </div>
       <OptionsButton value="opt1" className="m-2 border  " />

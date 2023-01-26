@@ -67,12 +67,12 @@ function Layout(props: any) {
   return (
     <div
       ref={layoutElement}
-      className={`font-mono bg flex flex-col md:flex-row ${customClass}`}
+      className={`min-h-full font-mono bg flex flex-col md:flex-row ${customClass}`}
     > 
       {/* <Sidebar /> */}
-      <Window key={999} winid={id}>
+      {/* <Window key={999} winid={id}>
         <PokemonDetail id={id} pkmName={pkmName}/>
-      </Window>
+      </Window> */}
       {openedPkmWindowList.map(handleOpenedPkmWindows)}
       {props.children}
       {/* <button className="absolute bottom-0 right-1/2 border mb-3 translate-x-1/2">Options</button> */}
