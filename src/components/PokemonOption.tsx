@@ -3,7 +3,7 @@ import React from "react";
 export const drawPokemonOptionList = (pkm: { url: string; name: string }, i: number) => {
   const id = pkm.url
     .replace("https://pokeapi.co/api/v2/pokemon/", "")
-    .replace("/", "");
+    .replace("/", ""); 
 
   return <PokemonOption key={i} id={id} pkmName={pkm.name} />;
 };
