@@ -23,52 +23,44 @@ function Layout(props: any) {
       // setopenedPkmWindowList(openedWindowList => [...openedWindowList, newElement]);
       setopenedPkmWindowList((openedWindowList) => [
         ...openedWindowList,
-        event.detail.pkm,
+        {...event.detail.pkm, winid: `${event.detail.pkm.id}_${openedWindowList.length}`},
       ]);
     });
     layoutElement.current.addEventListener("windowCloseClicked", (event) => {
       event.stopImmediatePropagation();
       // setopenedPkmWindowList(owl => owl.filter(obj =>obj.props.k !== event.target.getAttribute('k')));
       setopenedPkmWindowList((owl) => {
-        const newList = [...owl]
-        newList[owl.findIndex(
-          (obj) => obj?.id === event.target.getAttribute("winid")
-        )] = null
+        const newList = [...owl];
+        console.log(newList);
+        console.log(owl.findIndex((obj) => obj?.winid === event.target.getAttribute("winid")));
+        newList[
+          owl.findIndex((obj) => obj?.winid === event.target.getAttribute("winid"))
+        ] = null;
+        console.log(newList);
         return newList;
       });
     });
   }, []);
 
   const handleOpenedPkmWindows = (pkm, i) => {
-    if(!pkm?.id) return;
-    const {id, pkmName} = pkm
+    if (!pkm?.id) return;
+    const { id, pkmName } = pkm;
     return (
-      <Window key={i} winid={id}>
-        <div className=" my-2 flex items-center justify-around w-full"> 
-            <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
-            />
-            <div className="flex flex-col">
-              <span>Pokemon ID. {id}</span>
-              <span>{pkmName}</span>
-            </div>{" "}
-            <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`}
-            /> 
-        </div>
+      <Window key={i} winid={`${id}_${i}`} title={`${id}. ${pkmName}`}>
+        <PokemonDetail id={id} />
       </Window>
     );
   };
 
   const customClass = `${crtEffect && "crt"} ${crtTxtEffect && "crt-txt"}`;
 
-  const {id, pkmName} = {id:1, pkmName: "bulbasaur"}
+  const { id, pkmName } = { id: 1, pkmName: "bulbasaur" };
 
   return (
     <div
       ref={layoutElement}
       className={`min-h-full font-mono bg flex flex-col md:flex-row ${customClass}`}
-    > 
+    >
       {/* <Sidebar /> */}
       {/* <Window key={999} winid={id}>
         <PokemonDetail id={id} pkmName={pkmName}/>

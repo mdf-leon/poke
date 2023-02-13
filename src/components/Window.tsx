@@ -2,7 +2,8 @@ import React from "react";
 import useDragger from "../hooks/useDrag";
 import OptionsButton from "./OptionsButton";
 
-export default function Window(props: any) {
+export default function Window(props: { title: string, winid: string } & React.HTMLAttributes<HTMLDivElement>) {
+  const { title } = props;
   const windowRef = React.useRef<HTMLDivElement>(null);
   const titlebarRef = React.useRef<HTMLDivElement>(null);
   useDragger(windowRef, titlebarRef);
@@ -25,8 +26,11 @@ export default function Window(props: any) {
       style={{ top: "50%", left: "50%" }}
       {...props}
     >
-      <div ref={titlebarRef} className="w-full border md:text-xs flex flex-row justify-between px-2">
-        <span>titlebar</span>
+      <div
+        ref={titlebarRef}
+        className="w-full border md:text-xs flex flex-row justify-between px-2"
+      >
+        <span>{title}</span>
         <span>
           {" "}
           — ▢ <button onClick={handleClick()}>✕</button>{" "}
