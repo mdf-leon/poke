@@ -5,6 +5,12 @@ import { crtEffectState, crtTxtEffectState } from "../main";
 import Window from "./Window";
 import PokemonDetail from "./PokemonDetail";
 
+interface CustomEvent extends Event {
+  detail: {
+    pkm: { pkmName: string; id: string };
+  };
+}
+
 function Layout(props: any) {
   const [crtEffect] = useRecoilState(crtEffectState);
   const [crtTxtEffect] = useRecoilState(crtTxtEffectState);
@@ -17,32 +23,38 @@ function Layout(props: any) {
 
   React.useEffect(() => {
     if (!layoutElement.current) return;
-    layoutElement.current.addEventListener("pokemonClicked", (event) => {
+    layoutElement.current.addEventListener("pokemonClicked", (e) => {
+      const event = e as CustomEvent;
       event.stopImmediatePropagation();
-      // const newElement = React.createElement(Window, {key: event.detail.pkm.id, k: event.detail.pkm.id})
-      // setopenedPkmWindowList(openedWindowList => [...openedWindowList, newElement]);
       setopenedPkmWindowList((openedWindowList) => [
         ...openedWindowList,
-        {...event.detail.pkm, winid: `${event.detail.pkm.id}_${openedWindowList.length}`},
+        {
+          ...event.detail.pkm,
+          winid: `${event.detail.pkm.id}_${openedWindowList.length}`,
+        },
       ]);
     });
-    layoutElement.current.addEventListener("windowCloseClicked", (event) => {
+    layoutElement.current.addEventListener("windowCloseClicked", (e) => {
+      const event = e as Event & HTMLButtonElement;
       event.stopImmediatePropagation();
-      // setopenedPkmWindowList(owl => owl.filter(obj =>obj.props.k !== event.target.getAttribute('k')));
       setopenedPkmWindowList((owl) => {
         const newList = [...owl];
-        console.log(newList);
-        console.log(owl.findIndex((obj) => obj?.winid === event.target.getAttribute("winid")));
         newList[
-          owl.findIndex((obj) => obj?.winid === event.target.getAttribute("winid"))
+          owl.findIndex(
+            (obj) =>
+              obj?.winid ===
+              (event.target as HTMLButtonElement).getAttribute("winid")
+          )
         ] = null;
-        console.log(newList);
         return newList;
       });
     });
   }, []);
 
-  const handleOpenedPkmWindows = (pkm, i) => {
+  const handleOpenedPkmWindows = (
+    pkm: { id: number; pkmName: string },
+    i: number
+  ) => {
     if (!pkm?.id) return;
     const { id, pkmName } = pkm;
     return (
